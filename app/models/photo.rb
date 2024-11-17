@@ -20,7 +20,7 @@ class Photo < ApplicationRecord
   ## Direct associations
 
   # Photo#poster: returns a row from the users table associated to this photo by the owner_id column
-  belongs_to(:user,
+  belongs_to(:poster,
   class_name: "User",
   foreign_key: "owner_id"
 )
@@ -37,4 +37,5 @@ class Photo < ApplicationRecord
   ## Indirect associations
 
   # Photo#fans: returns rows from the users table associated to this photo through its likes
+  has_many(:fans, :through => :likes, :source => :users)
 end

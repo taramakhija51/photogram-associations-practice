@@ -27,7 +27,7 @@ class User < ApplicationRecord
   foreign_key: "author_id"
 )
   # User#own_photos: returns rows from the photos table  associated to this user by the owner_id column
-  has_many(:photos,
+  has_many(:own_photos,
   class_name: "Photo",
   foreign_key: "owner_id"
 )
@@ -55,16 +55,17 @@ class User < ApplicationRecord
   end
 
   # User#accepted_received_follow_requests: returns rows from the follow requests table associated to this user by the recipient_id column, where status is 'accepted'
-  def accepted_sent_follow_requests
+  def accepted_received_follow_requests
     sent_follow_requests.where(status: 'accepted')
   end
 
   ## Indirect associations
 
   # User#liked_photos: returns rows from the photos table associated to this user through its likes
+  has_many(:liked_photos, :through => :likes, :source => :photos)
 
   # User#commented_photos: returns rows from the photos table associated to this user through its comments
-
+  has_many(:commented_photos, :through => :comments, :source => :photos)
 
   ### Indirect associations built on scoped associations
 
