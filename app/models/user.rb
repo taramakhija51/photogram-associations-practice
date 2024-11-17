@@ -22,22 +22,42 @@ class User < ApplicationRecord
   ## Direct associations
 
   # User#comments: returns rows from the comments table associated to this user by the author_id column
-
+  has_many(:comments,
+  class_name: "Comment",
+  foreign_key: "author_id"
+)
   # User#own_photos: returns rows from the photos table  associated to this user by the owner_id column
-
+  has_many(:photos,
+  class_name: "Photo",
+  foreign_key: "owner_id"
+)
   # User#likes: returns rows from the likes table associated to this user by the fan_id column
-
+  has_many(:likes,
+  class_name: "Like",
+  foreign_key: "fan_id"
+)
   # User#sent_follow_requests: returns rows from the follow requests table associated to this user by the sender_id column
-
+  has_many(:follow_requests,
+  class_name: "FollowRequest",
+  foreign_key: "sender_id"
+)
   # User#received_follow_requests: returns rows from the follow requests table associated to this user by the recipient_id column
-
+  has_many(:received_follow_requests,
+  class_name: "FollowRequest",
+  foreign_key: "recipient_id"
+)
 
   ### Scoped direct associations
 
   # User#accepted_sent_follow_requests: returns rows from the follow requests table associated to this user by the sender_id column, where status is 'accepted'
+  def accepted_sent_follow_requests
+    sent_follow_requests.where(status: 'accepted')
+  end
 
   # User#accepted_received_follow_requests: returns rows from the follow requests table associated to this user by the recipient_id column, where status is 'accepted'
-
+  def accepted_sent_follow_requests
+    sent_follow_requests.where(status: 'accepted')
+  end
 
   ## Indirect associations
 
